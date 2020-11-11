@@ -4,11 +4,6 @@ from basic_config import *
 import sys
 # sys.setdefaultencoding("utf-8")
 
-DATA_PATH = 'D:\\datasets\\APS\\aps-dataset-metadata-2016'
-CITATION_PATH = 'D:\\datasets\\APS\\aps-dataset-citations-2016\\aps-dataset-citations-2016.csv'
-
-
-
 NUM_AUTHOR_DIS_PATH = 'data/author_num_dis.json'
 ## paper published year
 PAPER_YEAR_PATH = 'data/pid_pubyear.json'
@@ -138,6 +133,10 @@ def gen_paper_c5():
 
     pid_c5 = defaultdict(int)
 
+    pid_cn = defaultdict(int)
+
+    pid_refnum = defaultdict(int)
+
     progress = 0 
 
     for line in open(CITATION_PATH):
@@ -154,13 +153,19 @@ def gen_paper_c5():
 
         citing_pid,cited_pid = line.split(',')
 
+
+        pid_refnum[citing_pid]+=1
+
         citing_year = pid_pubyear.get(citing_pid,-1)
         cited_year = pid_pubyear.get(cited_pid,-1)
 
-        if citing_year ==-1 or cited_year ==-1:
+
+        if citing_year>=2010:
             continue
 
-        if cited_year>=2010:
+        pid_cn[cited_pid]+=1
+
+        if citing_year ==-1 or cited_year ==-1:
             continue
 
         if citing_year - cited_year <=5:
@@ -168,8 +173,14 @@ def gen_paper_c5():
             pid_c5[cited_year]+=1
 
     open('data/pid_c5.json','w').write(json.dumps(pid_c5))
-
     logging.info('data saved to data/pid_c5.json')
+
+    open('data/pid_cn.json','w').write(json.dumps(pid_cn))
+    logging.info('data saved to data/pid_cn.json')
+
+    open('data/pid_refnum.json','w').write(json.dumps(pid_refnum))
+    logging.info('data saved to data/pid_refnum.json')
+
 
 if __name__ == '__main__':
     # extract_from_metadata()

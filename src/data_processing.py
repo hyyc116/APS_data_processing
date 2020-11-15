@@ -137,6 +137,8 @@ def gen_paper_c5():
 
     pid_refnum = defaultdict(int)
 
+    pid_refs = defaultdict(list)
+
     progress = 0 
 
     for line in open(CITATION_PATH):
@@ -155,6 +157,8 @@ def gen_paper_c5():
 
 
         pid_refnum[citing_pid]+=1
+
+        pid_refs[cited_pid].append(citing_pid)
 
         citing_year = pid_pubyear.get(citing_pid,-1)
         cited_year = pid_pubyear.get(cited_pid,-1)
@@ -180,6 +184,9 @@ def gen_paper_c5():
 
     open('data/pid_refnum.json','w').write(json.dumps(pid_refnum))
     logging.info('data saved to data/pid_refnum.json')
+
+    open('data/pid_refs.json','w').write(json.dumps(pid_refs))
+    logging.info('data saved to data/pid_refs.json')
 
 
 if __name__ == '__main__':

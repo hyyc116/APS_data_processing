@@ -39,8 +39,10 @@ from scipy.stats import lognorm
 import scipy
 
 
-DATA_PATH = 'G:\\APS\\aps-dataset-metadata-2016'
-CITATION_PATH = 'G:\\APS\\aps-dataset-citations-2016\\aps-dataset-citations-2016.csv'
+DATA_PATH = 'D:\\datasets\\APS\\aps-dataset-metadata-2016'
+CITATION_PATH = 'D:\\datasets\\APS\\aps-dataset-citations-2016\\aps-dataset-citations-2016.csv'
+
+
 # from gini import gini
 
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s',level=logging.INFO)
